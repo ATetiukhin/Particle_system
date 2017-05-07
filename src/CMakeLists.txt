@@ -6,7 +6,9 @@ set(CUDA_FILES hello.cu)
 ############################################################################################
 
 cuda_compile(CUDA_ALL_FILES ${CUDA_FILES})
+
 cuda_add_executable(${APP_NAME} ${CUDA_ALL_FILES} ${HOST_FILES})
+target_link_libraries(${APP_NAME} ${OPENGL_LIBRARIES} ${GLUT_LIBRARY})
 set_target_properties(${APP_NAME} PROPERTIES OUTPUT_NAME_DEBUG "${APP_NAME}d")
 set_target_properties(${APP_NAME} PROPERTIES OUTPUT_NAME_RELEASE ${APP_NAME})
 
@@ -22,7 +24,7 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE        "/MT /O2 /Ob2 /D NDEBUG")
     set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT /Zi /O2 /Ob1 /D NDEBUG")
 
-    set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS " /DYNAMICBASE:NO /FIXED")
+    set_target_properties(${APP_NAME} PROPERTIES LINK_FLAGS " /SAFESEH:NO /DYNAMICBASE:NO /FIXED")
 
 elseif (CMAKE_COMPILER_IS_GNUCXX)
     # Setting directory

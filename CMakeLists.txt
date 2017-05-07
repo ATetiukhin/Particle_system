@@ -23,6 +23,19 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake)
 
 ############################################################################################
 
+# OpenGL
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
+
+# Glut
+set(GLUT_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glut/" CACHE FILEPATH "Root directory of Glut installation") 
+set(GLUT_glut_LIBRARY "${GLUT_ROOT_PATH}/lib/glut32.lib" CACHE FILEPATH "glut library") 
+
+find_package(GLUT REQUIRED)
+include_directories(${GLUT_INCLUDE_DIR})
+
+############################################################################################
+
 # CUDA
 find_package(CUDA REQUIRED)
 if (CUDA_FOUND)
