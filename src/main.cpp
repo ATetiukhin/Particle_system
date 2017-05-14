@@ -1,171 +1,74 @@
-//#include <cstdio>
-//#include <cstdlib>
-//
-//const int N = 16;
-//
-//
-//void run(char * string, int * vector, int csize, int isize);
-//
-//
-//int main()
-//{
-//    char a[N] = "Hello \0\0\0\0\0\0";
-//    int b[N] = { 15, 10, 6, 0, -11, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-//
-//    const int csize = N * sizeof(char);
-//    const int isize = N * sizeof(int);
-//
-//    printf("%s\n", a);
-//    run(a, b, csize, isize);
-//    printf("%s", a);
-//
-//
-//    printf("%s\n", a);
-//    return EXIT_SUCCESS;
-//}
-
-/* water.c - simulate water with particle systems */
-
 #include <windows.h>
-#include <GL/glut.h>
-#include <math.h>
-#include <stdlib.h>
 
-#define MAX_DROPS 50000
-#define GRAVITY -0.0005
+#include "opengl_view.hpp"
 
-#ifdef WIN32
-//to correct ASCI deviations in Microsoft VC++ 6.0
 
-#define M_PI (3.1415926535897932384626433832795)
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR sCmdLine, int iShow);
 
-double drand48()
+
+COpenGLView OpenGLView;
+
+
+
+LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
 {
-    return (rand() % 10000) / 10000.0;
-}
+    switch (uiMsg)
+    {
+    case WM_CLOSE:
+        PostQuitMessage(0);
+        break;
 
-//end of corrections
-#endif
+    case WM_KEYDOWN:
+        OpenGLView.OnKeyDown((UINT)wParam);
+        break;
 
+    case WM_LBUTTONDOWN:
+        OpenGLView.OnLButtonDown(LOWORD(lParam), HIWORD(lParam));
+        break;
 
-typedef struct {
-    int alive;
-    GLfloat xpos, ypos;
-    GLfloat xdir, ydir;
-    GLfloat mass;
-} Particle;
+    case WM_MOUSEMOVE:
+        OpenGLView.OnMouseMove(LOWORD(lParam), HIWORD(lParam));
+        break;
 
-Particle water[MAX_DROPS];
-int NumDrops;
+    case 0x020A: // WM_MOUSWHEEL
+        OpenGLView.OnMouseWheel(HIWORD(wParam));
+        break;
 
-void draw_waterfall(void)
-{
-    int i;
-    glClear(GL_COLOR_BUFFER_BIT);
-    glColor3f(0.0, 0.5, 1.0);
-    glBegin(GL_POINTS);
-    for (i = 0; i<NumDrops; i++)
-        if (water[i].alive) {
-            glVertex2f(water[i].xpos, water[i].ypos);
-        }
-    glEnd();
-    glFlush();
-    glutSwapBuffers();
-}
+    case WM_PAINT:
+        OpenGLView.OnPaint();
+        break;
 
-void time_step(void)
-{
-    int i;
-    for (i = 0; i<NumDrops; i++) {
-        if (water[i].alive) {
-            // set up an object to hit
-            if (water[i].ypos + GRAVITY*water[i].mass < -0.75) {
-                // bounce it off of the "floor"
-                water[i].ydir = -water[i].ydir;
-            }
-            else {
-                // let gravity do its thing
-                water[i].ydir += GRAVITY * water[i].mass;
-            }
-            water[i].xpos += water[i].xdir;
-            water[i].ypos += water[i].ydir;
-            if (water[i].ypos < -1.0 || water[i].xpos > 1.0)
-                water[i].alive = 0;
-        }
+    case WM_RBUTTONDOWN:
+        OpenGLView.OnRButtonDown(LOWORD(lParam), HIWORD(lParam));
+        break;
+
+    case WM_SIZE:
+        OpenGLView.OnSize(LOWORD(lParam), HIWORD(lParam));
+        break;
+
+    default:
+        return DefWindowProc(hWnd, uiMsg, wParam, lParam);
     }
+
+    return 0;
 }
 
-void drop_generator(void)
+
+int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR sCmdLine, int iShow)
 {
-    int i, newdrops = drand48() * 60;
+    char *AppName = "Water waves caustic GPU algorithm";
 
-    if (NumDrops + newdrops > MAX_DROPS)
-        newdrops = MAX_DROPS - NumDrops;
-
-    for (i = NumDrops; i<NumDrops + newdrops; i++) {
-        water[i].alive = 1;
-        water[i].xpos = -0.8 + 0.01*drand48();
-        water[i].ypos = 0.8 + 0.01*drand48();
-        water[i].xdir = 0.0075 + 0.0025*drand48();
-        water[i].ydir = 0.0;
-        water[i].mass = 0.5 + 0.5*drand48();
+    if (OpenGLView.Init(hInstance, AppName, 800, 600, 0))
+    {
+        OpenGLView.Show();
+        OpenGLView.MessageLoop();
     }
-    NumDrops += newdrops;
-}
-
-void display(void)
-{
-
-    drop_generator();
-    draw_waterfall();
-    time_step();
-
-}
-
-void keyboard(unsigned char key, int x, int y)
-{
-    switch (key) {
-    case 27: exit(0); break;
-    }
-}
-
-void reshape(int w, int h)
-{
-    glViewport(0, 0, (GLsizei)w, (GLsizei)h);
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    if (w <= h)
-        glOrtho(-1.0, 1.0,
-            -1.0*(GLfloat)h / (GLfloat)w, 1.0*(GLfloat)h / (GLfloat)w,
-            -1.0, 1.0);
     else
-        glOrtho(-1.0*(GLfloat)w / (GLfloat)h, 1.0*(GLfloat)w / (GLfloat)h,
-            -1.0, 1.0,
-            -1.0, 1.0);
-    glMatrixMode(GL_MODELVIEW);
-}
+    {
+        MessageBox(NULL, ErrorLog, AppName, MB_OK | MB_ICONERROR);
+    }
 
-void idle(void)
-{
-    glutPostRedisplay();
-}
+    OpenGLView.Destroy();
 
-int main(int argc, char** argv)
-{
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-    glutInitWindowSize(700, 700);
-    glutInitWindowPosition(0, 0);
-    glutCreateWindow("Waterfall");
-
-    glClearColor(0.0, 0.0, 0.0, 0.0);
-    glPointSize(2.0);
-
-    glutDisplayFunc(display);
-    glutReshapeFunc(reshape);
-    glutIdleFunc(idle);
-    glutKeyboardFunc(keyboard);
-    glutMainLoop();
-
-    return 1;
+    return 0;
 }

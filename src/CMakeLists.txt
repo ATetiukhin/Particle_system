@@ -1,6 +1,20 @@
 set(APP_NAME Water)
 
-set(HOST_FILES main.cpp)
+include_directories(OpenGLView)
+
+
+############################################################################################
+
+set(OPENGL_VIEW_FILES
+    OpenGLView/opengl_view.cpp
+    OpenGLView/opengl_view.hpp)
+
+
+set(HOST_FILES
+    ${OPENGL_VIEW_FILES}
+    main.cpp)
+
+
 set(CUDA_FILES hello.cu)
 
 ############################################################################################
@@ -14,7 +28,18 @@ set_target_properties(${APP_NAME} PROPERTIES OUTPUT_NAME_RELEASE ${APP_NAME})
 
 ############################################################################################
 
-# Project settings
+if (MSVC)
+    source_group("Source Files\\" FILES main.cpp)
+
+    source_group("Source Files\\OpenGLView" FILES ${OPENGL_VIEW_FILES})
+
+    source_group("Source Files\\CUDA" FILES ${CUDA_FILES})
+
+endif (MSVC)
+
+############################################################################################
+
+
 # Project settings
 if (MSVC)
     set(CMAKE_CXX_FLAGS "/EHsc /W3 /nologo" CACHE STRING "" FORCE)
