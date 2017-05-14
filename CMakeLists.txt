@@ -28,11 +28,24 @@ find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
 # Glut
-set(GLUT_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glut/" CACHE FILEPATH "Root directory of Glut installation") 
-set(GLUT_glut_LIBRARY "${GLUT_ROOT_PATH}/lib/glut32.lib" CACHE FILEPATH "glut library") 
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glut/")
+set(CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glut/" CACHE FILEPATH "Root directory of Glew installation")
+
+# set(GLUT_ROOT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glut/" CACHE FILEPATH "Root directory of Glut installation") 
+# set(GLUT_glut_LIBRARY "${GLUT_ROOT_PATH}/lib/glut32.lib" CACHE FILEPATH "glut library") 
 
 find_package(GLUT REQUIRED)
 include_directories(${GLUT_INCLUDE_DIR})
+
+# Glew
+set(CMAKE_PREFIX_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/")
+set(CMAKE_LIBRARY_PATH "${CMAKE_CURRENT_SOURCE_DIR}/libs/glew/" CACHE FILEPATH "Root directory of Glew installation")
+
+find_package(GLEW REQUIRED)
+if (GLEW_FOUND)
+    include_directories(${GLEW_INCLUDE_DIRS})
+    link_libraries(${GLEW_LIBRARIES})
+endif()
 
 ############################################################################################
 
@@ -42,6 +55,20 @@ if (CUDA_FOUND)
   set(CUDA_NVCC_FLAGS -gencode arch=compute_30,code=sm_30 CACHE STRING "" FORCE)
   set(CUDA_NVCC_FLAGS_DEBUG -G CACHE STRING "" FORCE)
 endif (CUDA_FOUND)
+
+############################################################################################
+
+# FreeImage
+
+set(FREEIMAGE_LIBRARY_AND_HEADER_DIRRECTORY libs/FreeImage)
+find_library(FREEIMAGE_LIBRARY
+NAMES
+    freeimage
+PATHS
+    ${FREEIMAGE_LIBRARY_AND_HEADER_DIRRECTORY}
+)
+find_path(FREEIMAGE_LIBRARY_AND_HEADER_DIRRECTORY FreeImage.h)
+include_directories(${FREEIMAGE_LIBRARY_AND_HEADER_DIRRECTORY})
 
 ############################################################################################
 

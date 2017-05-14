@@ -1,13 +1,16 @@
 #include <windows.h>
 
+#include "camera.hpp"
+#include "cstring.hpp"
 #include "opengl_view.hpp"
-
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR sCmdLine, int iShow);
 
+CCamera Camera;
+
+CString ModuleDirectory, ErrorLog;
 
 COpenGLView OpenGLView;
-
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)
