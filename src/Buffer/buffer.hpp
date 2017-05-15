@@ -3,7 +3,7 @@
 
 #define BUFFER_SIZE_INCREMENT 1048576
 
-#include <Windows.h>
+typedef unsigned char BYTE;
 
 class CBuffer
 {

@@ -12,8 +12,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam);
 class COpenGLView
 {
 public:
-    COpenGLView();
-    ~COpenGLView();
+    COpenGLView() = default;
+    ~COpenGLView() = default;
 
     bool Init(HINSTANCE hInstance, char *Title, int Width, int Height, int Samples);
     void Show(bool Maximized = false);

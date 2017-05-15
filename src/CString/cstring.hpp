@@ -14,7 +14,7 @@ public:
 
     ~CString();
 
-    operator char* ();
+    operator char * ();
 
     CString& operator = (const char *NewString);
     CString& operator = (const CString &NewString);

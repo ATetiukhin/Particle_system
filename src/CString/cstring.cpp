@@ -2,20 +2,20 @@
 
 CString::CString()
 {
-    String = NULL;
+    String = nullptr;
     Empty();
 }
 
 CString::CString(const char *DefaultString)
 {
-    String = NULL;
+    String = nullptr;
     Empty();
     Set(DefaultString);
 }
 
 CString::CString(const CString &DefaultString)
 {
-    String = NULL;
+    String = nullptr;
     Empty();
     Set(DefaultString.String);
 }
@@ -32,13 +32,21 @@ CString::operator char* ()
 
 CString& CString::operator = (const char *NewString)
 {
-    if (String != NewString) Set(NewString);
+    if (String != NewString)
+    {
+        Set(NewString);
+    }
+
     return *this;
 }
 
 CString& CString::operator = (const CString &NewString)
 {
-    if (this != &NewString) Set(NewString.String);
+    if (this != &NewString)
+    {
+        Set(NewString.String);
+    }
+
     return *this;
 }
 

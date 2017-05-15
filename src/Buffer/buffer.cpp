@@ -1,3 +1,5 @@
+#include <cstring>
+
 #include "buffer.hpp"
 
 CBuffer::CBuffer()
@@ -10,7 +12,7 @@ CBuffer::~CBuffer()
     Empty();
 }
 
-void CBuffer::AddData(void *Data, int DataSize)
+void CBuffer::AddData(void * Data, int DataSize)
 {
     int Remaining = BufferSize - Position;
 
@@ -42,7 +44,7 @@ void CBuffer::Empty()
     SetDefaults();
 }
 
-void *CBuffer::GetData()
+void * CBuffer::GetData()
 {
     return Buffer;
 }
@@ -54,7 +56,7 @@ int CBuffer::GetDataSize()
 
 void CBuffer::SetDefaults()
 {
-    Buffer = NULL;
+    Buffer = nullptr;
 
     BufferSize = 0;
     Position = 0;

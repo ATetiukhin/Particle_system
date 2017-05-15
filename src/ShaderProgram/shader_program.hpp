@@ -1,28 +1,29 @@
 #ifndef SHADER_PROGRAM_HPP_INCLUDED
 #define SHADER_PROGRAM_HPP_INCLUDED
 
-#include "GL/glew.h" // http://glew.sourceforge.net/
+#include "GL/glew.h"
 #include "GL/wglew.h"
 
 class CShaderProgram
 {
-protected:
-    GLuint VertexShader, FragmentShader, Program;
-
 public:
-    GLuint *UniformLocations, *AttribLocations;
+    GLuint * UniformLocations;
+    GLuint * AttribLocations;
 
-public:
     CShaderProgram();
-    ~CShaderProgram();
+    ~CShaderProgram() = default;
 
     operator GLuint ();
 
-    bool Load(char *VertexShaderFileName, char *FragmentShaderFileName);
+    bool Load(char * VertexShaderFileName, char * FragmentShaderFileName);
     void Destroy();
 
 protected:
-    GLuint LoadShader(char *FileName, GLenum Type);
+    GLuint VertexShader;
+    GLuint FragmentShader;
+    GLuint Program;
+
+    GLuint LoadShader(char * FileName, GLenum Type);
     void SetDefaults();
 };
 

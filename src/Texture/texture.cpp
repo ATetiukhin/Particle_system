@@ -12,11 +12,7 @@ extern int gl_max_texture_max_anisotropy_ext;
 
 
 CTexture::CTexture()
-{
-    Texture = 0;
-}
-
-CTexture::~CTexture()
+    : Texture(0)
 {
 }
 
@@ -164,7 +160,7 @@ void CTexture::Destroy()
     Texture = 0;
 }
 
-FIBITMAP *CTexture::GetBitmap(char *FileName, int &Width, int &Height, int &BPP)
+FIBITMAP * CTexture::GetBitmap(char * FileName, int & Width, int & Height, int & BPP)
 {
     FREE_IMAGE_FORMAT fif = FreeImage_GetFileType(FileName);
 

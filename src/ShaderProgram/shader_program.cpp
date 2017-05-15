@@ -10,10 +10,6 @@ CShaderProgram::CShaderProgram()
     SetDefaults();
 }
 
-CShaderProgram::~CShaderProgram()
-{
-}
-
 CShaderProgram::operator GLuint ()
 {
     return Program;
@@ -142,6 +138,6 @@ void CShaderProgram::SetDefaults()
 
     Program = 0;
 
-    UniformLocations = NULL;
-    AttribLocations = NULL;
+    UniformLocations = nullptr;
+    AttribLocations = nullptr;
 }

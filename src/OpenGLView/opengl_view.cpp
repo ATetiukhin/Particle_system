@@ -1,8 +1,7 @@
 #include <windows.h>
 
-#include <GL/glew.h> // http://glew.sourceforge.net/
+#include <GL/glew.h>
 #include <GL/wglew.h>
-
 
 #include "opengl_view.hpp"
 
@@ -15,15 +14,6 @@ extern int gl_max_texture_max_anisotropy_ext;
 extern COpenGLRenderer OpenGLRenderer;
 
 void GetModuleDirectory();
-
-
-COpenGLView::COpenGLView()
-{
-}
-
-COpenGLView::~COpenGLView()
-{
-}
 
 bool COpenGLView::Init(HINSTANCE hInstance, char *Title, int Width, int Height, int Samples)
 {
@@ -213,8 +203,7 @@ void COpenGLView::MessageLoop()
 
 void COpenGLView::Destroy()
 {
-    if (GLEW_VERSION_2_1)
-    {
+    if (GLEW_VERSION_2_1) {
         OpenGLRenderer.Destroy();
     }
 

@@ -21,7 +21,7 @@ public:
     CString Text;
 
     COpenGLRenderer();
-    ~COpenGLRenderer();
+    ~COpenGLRenderer() = default;
 
     bool Init();
     void Render(float FrameTime);
@@ -32,14 +32,41 @@ public:
     void AddDropByMouseClick(int x, int y);
 
 protected:
-    int Width, Height;
+    int Width;
+    int Height;
+ 
     mat3x3 NormalMatrix;
-    mat4x4 ModelMatrix, ViewMatrix, ViewMatrixInverse, ProjectionMatrix, ProjectionBiasMatrixInverse;
+
+    mat4x4 ModelMatrix;
+    mat4x4 ViewMatrix;
+    mat4x4 ViewMatrixInverse;
+    mat4x4 ProjectionMatrix;
+    mat4x4 ProjectionBiasMatrixInverse;
 
     CTexture PoolSkyCubeMap;
-    GLuint WaterHeightMaps[2], WHMID, WaterNormalMap, PhotonsTexture, PhotonsTempCubeMaps[2], PhotonsCubeMap, PhotonsVBO, PoolSkyVBO, WaterVBO, FBO;
-    CShaderProgram WaterAddDropProgram, WaterHeightMapProgram, WaterNormalMapProgram, PhotonProgram, CubeMapHBlurProgram, CubeMapVBlurProgram, PoolSkyProgram, WaterProgram;
-    int PhotonsCount, QuadsVerticesCount;
+ 
+    GLuint WaterHeightMaps[2];
+    GLuint WHMID;
+    GLuint WaterNormalMap;
+    GLuint PhotonsTexture;
+    GLuint PhotonsTempCubeMaps[2];
+    GLuint PhotonsCubeMap;
+    GLuint PhotonsVBO;
+    GLuint PoolSkyVBO;
+    GLuint WaterVBO;
+    GLuint FBO;
+ 
+    CShaderProgram WaterAddDropProgram;
+    CShaderProgram WaterHeightMapProgram;
+    CShaderProgram WaterNormalMapProgram;
+    CShaderProgram PhotonProgram;
+    CShaderProgram CubeMapHBlurProgram;
+    CShaderProgram CubeMapVBlurProgram;
+    CShaderProgram PoolSkyProgram;
+    CShaderProgram WaterProgram;
+ 
+    int PhotonsCount;
+    int QuadsVerticesCount;
 
 };
 

@@ -1,5 +1,5 @@
 #include <cstdlib>
-#include <GL/glew.h> // http://glew.sourceforge.net/
+#include <GL/glew.h>
 #include <GL/wglew.h>
 
 #include "opengl_renderer.hpp"
@@ -10,31 +10,23 @@
 #include "opengl_view.hpp"
 #include "mathematics.hpp"
 
-
 extern CCamera Camera;
 extern CString ErrorLog;
 extern int gl_max_texture_max_anisotropy_ext;
 
 
 COpenGLRenderer::COpenGLRenderer()
+    : WHMID(0)
+    , WireFrame(false)
+    , Pause(false)
+    , DropRadius(4.0f / 128.0f)
 {
-    WHMID = 0;
-
-    WireFrame = false;
-    Pause = false;
-
-    DropRadius = 4.0f / 128.0f;
-
     Camera.SetViewMatrixPointer(&ViewMatrix, &ViewMatrixInverse);
-}
-
-COpenGLRenderer::~COpenGLRenderer()
-{
 }
 
 bool COpenGLRenderer::Init()
 {
-    bool Error = false;
+    auto Error = false;
 
     if (!GLEW_ARB_texture_non_power_of_two)
     {
@@ -201,7 +193,7 @@ bool COpenGLRenderer::Init()
 
     vec4 *Colors = new vec4[PCMR * 2 * PCMR * 3];
 
-    for (int i = 0; i < PCMR * 2 * PCMR * 3; i++)
+    for (int i = 0; i < PCMR * 2 * PCMR * 3; ++i)
     {
         Colors[i] = vec4(0.0f, 0.0f, 0.0f, 1.0f);
     }
@@ -220,7 +212,7 @@ bool COpenGLRenderer::Init()
 
     glGenTextures(2, PhotonsTempCubeMaps);
 
-    for (int i = 0; i < 2; i++)
+    for (int i = 0; i < 2; ++i)
     {
         glBindTexture(GL_TEXTURE_CUBE_MAP, PhotonsTempCubeMaps[i]);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
@@ -228,7 +220,7 @@ bool COpenGLRenderer::Init()
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < 6; ++i)
         {
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, PCMR, PCMR, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
         }
@@ -242,7 +234,7 @@ bool COpenGLRenderer::Init()
 
     Colors = new vec4[PCMR * PCMR];
 
-    for (int i = 0; i < PCMR * PCMR; i++)
+    for (int i = 0; i < PCMR * PCMR; ++i)
     {
         Colors[i] = vec4(0.0f, 0.0f, 0.0f, 1.0f);
     }
@@ -254,7 +246,7 @@ bool COpenGLRenderer::Init()
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-    for (int i = 0; i < 6; i++)
+    for (int i = 0; i < 6; ++i)
     {
         glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA8, PCMR, PCMR, 0, GL_RGBA, GL_FLOAT, Colors);
     }
@@ -279,9 +271,9 @@ bool COpenGLRenderer::Init()
 
     int i = 0;
 
-    for (int y = 0; y <= PMR; y++)
+    for (int y = 0; y <= PMR; ++y)
     {
-        for (int x = 0; x <= PMR; x++)
+        for (int x = 0; x <= PMR; ++x)
         {
             Photons[i++] = vec3((float)x * WMSDPMR - 1.0f, 0.0f, 1.0f - (float)y * WMSDPMR);
         }

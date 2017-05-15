@@ -5,8 +5,8 @@
 
 CCamera::CCamera()
 {
-    ViewMatrix = NULL;
-    ViewMatrixInverse = NULL;
+    ViewMatrix = nullptr;
+    ViewMatrixInverse = nullptr;
 
     X = vec3(1.0f, 0.0f, 0.0f);
     Y = vec3(0.0f, 1.0f, 0.0f);
@@ -14,10 +14,6 @@ CCamera::CCamera()
 
     Position = vec3(0.0f, 0.0f, 5.0f);
     Reference = vec3(0.0f, 0.0f, 0.0f);
-}
-
-CCamera::~CCamera()
-{
 }
 
 void CCamera::Look(const vec3 &Position, const vec3 &Reference, bool RotateAroundReference)
@@ -138,11 +134,11 @@ void CCamera::SetViewMatrixPointer(float *ViewMatrix, float *ViewMatrixInverse)
 
 void CCamera::CalculateViewMatrix()
 {
-    if (ViewMatrix != NULL)
+    if (ViewMatrix != nullptr)
     {
         *ViewMatrix = mat4x4(X.x, Y.x, Z.x, 0.0f, X.y, Y.y, Z.y, 0.0f, X.z, Y.z, Z.z, 0.0f, -dot(X, Position), -dot(Y, Position), -dot(Z, Position), 1.0f);
 
-        if (ViewMatrixInverse != NULL)
+        if (ViewMatrixInverse != nullptr)
         {
             *ViewMatrixInverse = inverse(*ViewMatrix);
         }
