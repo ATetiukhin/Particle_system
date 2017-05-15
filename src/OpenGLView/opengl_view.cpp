@@ -6,23 +6,15 @@
 
 #include "opengl_view.hpp"
 
-#include "camera.hpp"
-#include "cstring.hpp"
-#include "opengl_renderer.hpp"
-
-
 extern CCamera Camera;
 extern CString ModuleDirectory;
 extern CString ErrorLog;
 
 extern int gl_max_texture_size;
 extern int gl_max_texture_max_anisotropy_ext;
-
+extern COpenGLRenderer OpenGLRenderer;
 
 void GetModuleDirectory();
-
-
-COpenGLRenderer OpenGLRenderer;
 
 
 COpenGLView::COpenGLView()

@@ -7,8 +7,8 @@
 extern CString ModuleDirectory;
 extern CString ErrorLog;
 
-int gl_max_texture_size = 0;
-int gl_max_texture_max_anisotropy_ext = 0;
+extern int gl_max_texture_size;
+extern int gl_max_texture_max_anisotropy_ext;
 
 
 CTexture::CTexture()

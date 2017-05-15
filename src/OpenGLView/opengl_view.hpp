@@ -1,6 +1,10 @@
 #ifndef OPENGL_VIEW_HPP_INCLUDED
 #define OPENGL_VIEW_HPP_INCLUDED
 
+#include "camera.hpp"
+#include "cstring.hpp"
+#include "opengl_renderer.hpp"
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam);
 

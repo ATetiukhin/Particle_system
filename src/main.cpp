@@ -1,16 +1,15 @@
-#include <windows.h>
+#include <Windows.h>
 
-#include "camera.hpp"
 #include "cstring.hpp"
+#include "camera.hpp"
+#include "opengl_renderer.hpp"
 #include "opengl_view.hpp"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR sCmdLine, int iShow);
-
 CCamera Camera;
-
-CString ModuleDirectory, ErrorLog;
-
 COpenGLView OpenGLView;
+COpenGLRenderer OpenGLRenderer;
+CString ModuleDirectory, ErrorLog;
+int gl_max_texture_size = 0, gl_max_texture_max_anisotropy_ext = 0;
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uiMsg, WPARAM wParam, LPARAM lParam)

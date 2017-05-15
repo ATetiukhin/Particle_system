@@ -1,5 +1,5 @@
 #ifndef SHADER_PROGRAM_HPP_INCLUDED
-#define Shader_Program_HPP_INCLUDED
+#define SHADER_PROGRAM_HPP_INCLUDED
 
 #include "GL/glew.h" // http://glew.sourceforge.net/
 #include "GL/wglew.h"
